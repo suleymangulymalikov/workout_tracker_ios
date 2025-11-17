@@ -37,3 +37,9 @@ struct HomeActionCard: View {
             )
     }
 }
+
+
+#Preview {
+    MainTabView()
+}
+
