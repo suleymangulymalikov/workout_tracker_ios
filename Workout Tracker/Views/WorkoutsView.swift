@@ -27,7 +27,9 @@ struct WorkoutsView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: AddExerciseView()){
+                    NavigationLink {
+                        AddExerciseView()
+                    } label: {
                         HStack {
                             Image(systemName: "plus")
                             Text("Add Exercise")
