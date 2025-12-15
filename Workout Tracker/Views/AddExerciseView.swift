@@ -1,5 +1,6 @@
 import SwiftUI
 import AVKit
+import Combine
 
 
 struct AddExerciseView: View {
@@ -8,9 +9,9 @@ struct AddExerciseView: View {
 
     // Example exercise list
     let exercises: [ExerciseItem] = [
-        ExerciseItem(id: "pushups", name: "Push-Ups", image: "pushups", description: "A classic upper-body exercise that targets chest, shoulders, and triceps.", videoURL: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")),
-        ExerciseItem(id: "pullups", name: "Pull-Ups", image: "pullups", description: "Great for building back and biceps strength.", videoURL: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")),
-        ExerciseItem(id: "crunches", name: "Crunches", image: "crunches", description: "Targets the abdominal muscles for core strength.", videoURL: nil),
+        ExerciseItem(id: "pushups", name: "Push-Ups", image: "pushups", description: "A classic upper-body exercise that targets chest, shoulders, and triceps.", videoURL: "pushups_vidoe"),
+        ExerciseItem(id: "pullups", name: "Pull-Ups", image: "pullups", description: "Great for building back and biceps strength.", videoURL: "pullups_video"),
+        ExerciseItem(id: "crunches", name: "Crunches", image: "crunches", description: "Targets the abdominal muscles for core strength.", videoURL: "crunches_video"),
         ExerciseItem(id: "plank", name: "Plank", image: "plank", description: "Isometric core exercise improving stability and posture.", videoURL: nil),
         ExerciseItem(id: "jogging",name: "Jogging", image: "jogging", description: "Light running to improve cardiovascular health.", videoURL: nil),
         ExerciseItem(id: "situps" ,name: "Sit-Ups", image: "situps", description: "Core movement engaging abs and hip flexors.", videoURL: nil),
@@ -69,7 +70,7 @@ struct ExerciseItem: Identifiable, Hashable {
     let name: String
     let image: String
     let description: String
-    let videoURL: URL?
+    let videoURL: String?
 }
 
 #Preview {
@@ -78,6 +79,14 @@ struct ExerciseItem: Identifiable, Hashable {
 
 struct ExerciseDetailView: View {
     let exercise: ExerciseItem
+    @State private var player: AVPlayer?
+//    @State var player = AVPlayer(
+//        url: Bundle.main.url(
+//            forResource: exercise.videoURL,
+//            withExtension: "mp4"
+//        )!
+//    )
+//    
 
     var body: some View {
         ScrollView {
@@ -95,20 +104,48 @@ struct ExerciseDetailView: View {
                 Text(exercise.description)
                     .font(.body)
                     .foregroundColor(.secondary)
-
-                if let url = exercise.videoURL {
-                    VideoPlayer(player: AVPlayer(url: url))
+                
+                if let player = player {
+                    VideoPlayer(player: player)
                         .frame(height: 220)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .onAppear{player.play()}
                 } else {
                     Text("No sample video available")
                         .foregroundColor(.secondary)
                 }
+//                VideoPlayer(player: player) {
+//                    
+//                }
+//                    .frame(height: 220)
+//                    .clipShape(RoundedRectangle(cornerRadius: 12))
+//                    .onAppear{
+//                        player.play()
+//                    }
+//                if let url = exercise.videoURL {
+//                    VideoPlayer(player: player)
+//                        .frame(height: 220)
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                        .onAppear{
+//                            player.play()
+//                        }
+//                } else {
+//                    Text("No sample video available")
+//                        .foregroundColor(.secondary)
+//                }
             }
             .padding()
+            .onAppear {
+                if player == nil, let name = exercise.videoURL,
+                   let url = Bundle.main.url(forResource: name, withExtension: "mp4") {
+                    player = AVPlayer(url: url)
+                }
+            }
+
         }
         .navigationTitle("Exercise Details")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
 
