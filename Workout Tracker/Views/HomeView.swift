@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var workoutViewModel: WorkoutViewModel
+	
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20){
@@ -38,7 +40,11 @@ struct HomeView: View {
                 
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
                     
-                    HomeActionCard(title: "Start Workout", color: .orange, icon: "figure")
+//                    HomeActionCard(title: "Start Workout", color: .orange, icon: "figure")
+                    NavigationLink(destination: StartWorkoutView(viewModel: workoutViewModel)) {
+                        HomeActionCard(title: "Start Workout", color: .orange, icon: "figure.walk")
+                    }
+
                     HomeActionCard(title: "Progress", color: .blue, icon: "chart.bar")
                     NavigationLink(destination: WorkoutsView()){
                         HomeActionCard(title: "Create Workout", color: .purple, icon: "plus")
