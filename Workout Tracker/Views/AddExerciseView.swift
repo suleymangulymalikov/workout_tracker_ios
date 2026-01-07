@@ -6,7 +6,7 @@ import Combine
 struct AddExerciseView: View {
 //    @Environment(\.dismiss) var dismiss
     @Environment(\.dismiss) var dismiss
-
+    @EnvironmentObject var viewModel: WorkoutViewModel
     // Example exercise list
     let exercises: [ExerciseItem] = [
         ExerciseItem(id: "pushups", name: "Push-Ups", image: "pushups", description: "A classic upper-body exercise that targets chest, shoulders, and triceps.", videoURL: "pushups_vidoe"),
@@ -22,50 +22,97 @@ struct AddExerciseView: View {
         ExerciseItem(id: "superman", name: "Superman", image: "superman", description: "Back extension to strengthen lower back.", videoURL: nil)
     ]
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            
-            Text("Add Exercise")
-                .font(.largeTitle)
-                .bold()
-            
-            Text("Select an exercise to add")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(exercises) { exercise in
-                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                            HStack(spacing: 16) {
-                                
-                                Image(exercise.image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                                
-                                Text(exercise.name)
-                                    .font(.headline)
-                                
-                                Spacer()
+            VStack(alignment: .leading, spacing: 16) {
+
+                Text("Add Exercise")
+                    .font(.largeTitle)
+                    .bold()
+
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(exercises) { exercise in
+                            NavigationLink {
+                                ExerciseDetailView(exercise: exercise)
+                                    .environmentObject(viewModel)
+                            } label: {
+                                HStack(spacing: 16) {
+                                    Image(exercise.image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+
+                                    Text(exercise.name)
+                                        .font(.headline)
+
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(12)
+                                .shadow(color: .gray.opacity(0.1), radius: 4)
+                                .foregroundColor(.orange)
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(12)
-                            .shadow(color: .gray.opacity(0.1), radius: 4, x: 0, y: 2)
-                            .foregroundColor(.orange)
                         }
                     }
                 }
-                .padding(.top)
             }
-            
-            Spacer()
+            .padding()
         }
     }
-}
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 16) {
+//            
+//            Text("Add Exercise")
+//                .font(.largeTitle)
+//                .bold()
+//            
+//            Text("Select an exercise to add")
+//                .font(.subheadline)
+//                .foregroundColor(.gray)
+//            
+//            ScrollView {
+//                VStack(spacing: 16) {
+//                    ForEach(exercises) { exercise in
+//                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+//                            HStack(spacing: 16) {
+//                                
+//                                Image(exercise.image)
+//                                    .resizable()
+//                                    .scaledToFill()
+//                                    .frame(width: 50, height: 50)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+//                                
+//                                Text(exercise.name)
+//                                    .font(.headline)
+//                                
+//                                Spacer()
+//                            }
+//                            .padding()
+//                            .background(Color.white)
+//                            .cornerRadius(12)
+//                            .shadow(color: .gray.opacity(0.1), radius: 4, x: 0, y: 2)
+//                            .foregroundColor(.orange)
+//                        }
+//                    }
+//                }
+//                .padding(.top)
+//            }
+//            
+//            Spacer()
+//        }
+//    }
+//}
 
-struct ExerciseItem: Identifiable, Hashable {
+//struct ExerciseItem: Identifiable, Hashable {
+//    let id: String
+//    let name: String
+//    let image: String
+//    let description: String
+//    let videoURL: String?
+//}
+
+struct ExerciseItem: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let image: String
@@ -77,20 +124,21 @@ struct ExerciseItem: Identifiable, Hashable {
     MainTabView()
 }
 
+
 struct ExerciseDetailView: View {
     let exercise: ExerciseItem
-    @State private var player: AVPlayer?
-//    @State var player = AVPlayer(
-//        url: Bundle.main.url(
-//            forResource: exercise.videoURL,
-//            withExtension: "mp4"
-//        )!
-//    )
-//    
+
+    @EnvironmentObject var viewModel: WorkoutViewModel
+    @Environment(\.dismiss) var dismiss
+
+    @State private var sets = 3
+    @State private var repsOrTime = 10
+    @State private var showSaveSheet = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+
                 Image(exercise.image)
                     .resizable()
                     .scaledToFill()
@@ -102,49 +150,51 @@ struct ExerciseDetailView: View {
                     .bold()
 
                 Text(exercise.description)
-                    .font(.body)
                     .foregroundColor(.secondary)
-                
-                if let player = player {
-                    VideoPlayer(player: player)
-                        .frame(height: 220)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .onAppear{player.play()}
-                } else {
-                    Text("No sample video available")
-                        .foregroundColor(.secondary)
+
+                Button {
+                    showSaveSheet = true
+                } label: {
+                    Text("Save Exercise")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
                 }
-//                VideoPlayer(player: player) {
-//                    
-//                }
-//                    .frame(height: 220)
-//                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//                    .onAppear{
-//                        player.play()
-//                    }
-//                if let url = exercise.videoURL {
-//                    VideoPlayer(player: player)
-//                        .frame(height: 220)
-//                        .clipShape(RoundedRectangle(cornerRadius: 12))
-//                        .onAppear{
-//                            player.play()
-//                        }
-//                } else {
-//                    Text("No sample video available")
-//                        .foregroundColor(.secondary)
-//                }
             }
             .padding()
-            .onAppear {
-                if player == nil, let name = exercise.videoURL,
-                   let url = Bundle.main.url(forResource: name, withExtension: "mp4") {
-                    player = AVPlayer(url: url)
-                }
-            }
-
         }
-        .navigationTitle("Exercise Details")
-        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showSaveSheet) {
+            saveSheet
+        }
+    }
+
+    private var saveSheet: some View {
+        VStack(spacing: 20) {
+            Text("Exercise Details")
+                .font(.title2)
+                .bold()
+
+            Stepper("Sets: \(sets)", value: $sets, in: 1...10)
+
+//            TextField("Reps or Time (e.g. 12 reps / 30 sec)", text: $repsOrTime)
+//                .textFieldStyle(.roundedBorder)
+            Stepper("Reps: \(repsOrTime)", value: $repsOrTime, in: 1...20)
+            
+            Button("Save") {
+                viewModel.addExercise(
+                    exercise: exercise,
+                    sets: sets,
+                    repsOrTime: repsOrTime
+                )
+                dismiss()
+            }
+            .buttonStyle(.borderedProminent)
+
+            Spacer()
+        }
+        .padding()
     }
 }
 
