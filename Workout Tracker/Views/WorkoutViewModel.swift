@@ -2,46 +2,61 @@ import SwiftUI
 import Combine
 
 class WorkoutViewModel: ObservableObject {
-    @Published var workoutName: String = "" {
-        didSet { saveCurrentWorkout() }
-    }
+    @Published var workouts: [Workout] = []
+    @Published var workoutName: String = ""
+    @Published var exercises: [WorkoutExercise] = []
 
-    @Published var exercises: [WorkoutExercise] = [] {
-        didSet { saveCurrentWorkout() }
-    }
-
-    private let storageKey = "current_workout"
+    private let storageKey = "saved_workouts"
 
     init() {
-        loadCurrentWorkout()
+        load()
     }
+
+    // MARK: - Workout building
 
     func addExercise(
         exercise: ExerciseItem,
         sets: Int,
-        repsOrTime: Int
+        reps: Int
     ) {
         let workoutExercise = WorkoutExercise(
             exercise: exercise,
             sets: sets,
-            repsOrTime: repsOrTime
+            reps: reps
         )
         exercises.append(workoutExercise)
     }
 
-    private func saveCurrentWorkout() {
-        let workout = Workout(name: workoutName, exercises: exercises)
-        if let data = try? JSONEncoder().encode(workout) {
+    func saveWorkout() {
+        guard !workoutName.isEmpty, !exercises.isEmpty else { return }
+
+        let workout = Workout(
+            name: workoutName,
+            exercises: exercises
+        )
+
+        workouts.append(workout)
+
+        // Reset builder
+        workoutName = ""
+        exercises = []
+
+        save()
+    }
+
+    // MARK: - Persistence
+
+    private func save() {
+        if let data = try? JSONEncoder().encode(workouts) {
             UserDefaults.standard.set(data, forKey: storageKey)
         }
     }
 
-    private func loadCurrentWorkout() {
+    private func load() {
         guard let data = UserDefaults.standard.data(forKey: storageKey),
-              let workout = try? JSONDecoder().decode(Workout.self, from: data)
+              let decoded = try? JSONDecoder().decode([Workout].self, from: data)
         else { return }
 
-        workoutName = workout.name
-        exercises = workout.exercises
+        workouts = decoded
     }
 }

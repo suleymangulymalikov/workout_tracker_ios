@@ -7,58 +7,89 @@ struct WorkoutsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
 
-                Text("Create Workout")
+                Text("Workouts")
                     .font(.largeTitle)
                     .bold()
 
-                Text("Build your custom workout plan")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                // 🏗 Create Workout
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Create Workout")
+                        .font(.title2)
+                        .bold()
 
-                Text("Workout name")
-                    .font(.headline)
+                    TextField("Workout name", text: $viewModel.workoutName)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
 
-                TextField("e.g Morning Workout", text: $viewModel.workoutName)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-
-                Text("Exercises:")
-                    .font(.headline)
-
-                
-
-
-                NavigationLink {
-                    AddExerciseView()
-                        .environmentObject(viewModel)
-                } label: {
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("Add Exercise")
+                    // Exercises being added
+                    ForEach(viewModel.exercises) { item in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.exercise.name)
+                                    .font(.headline)
+                                Text("\(item.sets) sets × \(item.reps) reps")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
                     }
-                    .foregroundColor(.orange)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
+
+                    NavigationLink {
+                        AddExerciseView()
+                            .environmentObject(viewModel)
+                    } label: {
+                        Label("Add Exercise", systemImage: "plus")
+                            .foregroundColor(.orange)
+                    }
+
+                    Button {
+                        viewModel.saveWorkout()
+                    } label: {
+                        Text("Save Workout")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                viewModel.workoutName.isEmpty || viewModel.exercises.isEmpty
+                                ? Color.gray.opacity(0.4)
+                                : Color.orange
+                            )
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                    .disabled(viewModel.workoutName.isEmpty || viewModel.exercises.isEmpty)
                 }
-                
-                ForEach(viewModel.exercises) { item in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(item.exercise.name)
+
+                Divider()
+
+                // 📚 Saved Workouts
+                Text("My Workouts")
+                    .font(.title2)
+                    .bold()
+
+                if viewModel.workouts.isEmpty {
+                    Text("No workouts yet")
+                        .foregroundColor(.gray)
+                }
+
+                ForEach(viewModel.workouts) { workout in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(workout.name)
                             .font(.headline)
 
-                        Text("\(item.sets) sets • \(item.repsOrTime)")
-                            .font(.subheadline)
+                        Text("\(workout.exercises.count) exercises")
                             .foregroundColor(.gray)
                     }
                     .padding()
                     .background(Color(.systemGray6))
-                    .cornerRadius(10)
+                    .cornerRadius(12)
                 }
             }
-            .padding(6)
+            .padding()
         }
     }
 }
