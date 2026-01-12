@@ -2,27 +2,23 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject var workoutViewModel = WorkoutViewModel()
     var body: some View {
         
         NavigationStack {
             TabView {
                 HomeView()
-                    .environmentObject(workoutViewModel)
                     .tabItem {
                         Image(systemName: "house.fill")
                         Text("Home")
                     }
                 
                 WorkoutsView()
-                    .environmentObject(workoutViewModel)
                     .tabItem {
                         Image(systemName: "figure")
                         Text("Workouts")
                     }
                 
                 ProgressView()
-                    .environmentObject(workoutViewModel)
                     .tabItem {
                         Image(systemName: "chart.bar")
                         Text("Progress")

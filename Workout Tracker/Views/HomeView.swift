@@ -44,8 +44,9 @@ struct HomeView: View {
                     NavigationLink(destination: StartWorkoutView(viewModel: workoutViewModel)) {
                         HomeActionCard(title: "Start Workout", color: .orange, icon: "figure.walk")
                     }
-
-                    HomeActionCard(title: "Progress", color: .blue, icon: "chart.bar")
+                    NavigationLink(destination: ProgressView()){
+                        HomeActionCard(title: "Progress", color: .blue, icon: "chart.bar")
+                    }
                     NavigationLink(destination: WorkoutsView()){
                         HomeActionCard(title: "Create Workout", color: .purple, icon: "plus")
                     }

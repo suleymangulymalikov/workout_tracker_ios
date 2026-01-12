@@ -77,6 +77,8 @@ struct ExerciseItem: Identifiable, Hashable, Codable {
 struct ExerciseDetailView: View {
     let exercise: ExerciseItem
 
+
+    
     @EnvironmentObject var viewModel: WorkoutViewModel
     @Environment(\.dismiss) var dismiss
 
@@ -84,6 +86,19 @@ struct ExerciseDetailView: View {
     @State private var reps = 10
     @State private var showSaveSheet = false
 
+    @State private var player: AVPlayer?
+
+    init(exercise: ExerciseItem) {
+        self.exercise = exercise
+
+        if let name = exercise.videoURL,
+           let url = Bundle.main.url(forResource: name, withExtension: "mp4") {
+            _player = State(initialValue: AVPlayer(url: url))
+        } else {
+            _player = State(initialValue: nil)
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -101,6 +116,15 @@ struct ExerciseDetailView: View {
                 Text(exercise.description)
                     .foregroundColor(.secondary)
 
+                if let player = player {
+                    VideoPlayer(player: player)
+                        .frame(height: 220)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .onAppear{player.play()}
+                } else {
+                    Text("No sample video available")
+                        .foregroundColor(.secondary)
+                }
                 Button {
                     showSaveSheet = true
                 } label: {
@@ -111,6 +135,8 @@ struct ExerciseDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }
+                
+                
             }
             .padding()
         }

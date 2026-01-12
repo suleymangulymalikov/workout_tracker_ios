@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WorkoutsView: View {
-    @StateObject private var viewModel = WorkoutViewModel()
+    @EnvironmentObject var viewModel: WorkoutViewModel
 
     var body: some View {
         ScrollView {
@@ -95,6 +95,3 @@ struct WorkoutsView: View {
 }
 
 
-#Preview {
-    WorkoutsView()
-}

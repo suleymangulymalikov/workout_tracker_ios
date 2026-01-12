@@ -10,9 +10,11 @@ import SwiftData
 
 @main
 struct Workout_TrackerApp: App {
+    @StateObject private var workoutViewModel = WorkoutViewModel()
     var body: some Scene {
         WindowGroup {
             MainTabView()
+                .environmentObject(workoutViewModel)
         }
     }
 }

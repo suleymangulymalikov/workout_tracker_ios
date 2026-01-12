@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ActiveWorkoutView: View {
+    @EnvironmentObject var viewModel: WorkoutViewModel
+
     let workout: Workout
     @State private var showFinishAlert = false
 
@@ -34,7 +36,7 @@ struct ActiveWorkoutView: View {
                     title: Text("Finish Workout"),
                     message: Text("Are you sure you want to finish this workout?"),
                     primaryButton: .default(Text("Yes"), action: {
-                        // For now, just dismiss. Could add completion logic later.
+                        viewModel.markWorkoutCompleted(workout: workout)
                     }),
                     secondaryButton: .cancel()
                 )
