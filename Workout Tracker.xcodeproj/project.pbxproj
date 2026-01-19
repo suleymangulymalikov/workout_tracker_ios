@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		A1D532A72F1E977400549239 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A11E6A162EAFD2C0006F9996 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A11E6A1D2EAFD2C0006F9996;
+			remoteInfo = "Workout Tracker";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		A11E6A1E2EAFD2C1006F9996 /* Workout Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Workout Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1D532A32F1E977400549239 /* Workout TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Workout TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -29,10 +40,22 @@
 			path = "Workout Tracker";
 			sourceTree = "<group>";
 		};
+		A1D532A42F1E977400549239 /* Workout TrackerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Workout TrackerTests";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A11E6A1B2EAFD2C0006F9996 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D532A02F1E977400549239 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				A11E6A202EAFD2C1006F9996 /* Workout Tracker */,
+				A1D532A42F1E977400549239 /* Workout TrackerTests */,
 				A11E6A1F2EAFD2C1006F9996 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				A11E6A1E2EAFD2C1006F9996 /* Workout Tracker.app */,
+				A1D532A32F1E977400549239 /* Workout TrackerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +108,29 @@
 			productReference = A11E6A1E2EAFD2C1006F9996 /* Workout Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A1D532A22F1E977400549239 /* Workout TrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1D532AB2F1E977400549239 /* Build configuration list for PBXNativeTarget "Workout TrackerTests" */;
+			buildPhases = (
+				A1D5329F2F1E977400549239 /* Sources */,
+				A1D532A02F1E977400549239 /* Frameworks */,
+				A1D532A12F1E977400549239 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1D532A82F1E977400549239 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A1D532A42F1E977400549239 /* Workout TrackerTests */,
+			);
+			name = "Workout TrackerTests";
+			packageProductDependencies = (
+			);
+			productName = "Workout TrackerTests";
+			productReference = A1D532A32F1E977400549239 /* Workout TrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -95,6 +143,10 @@
 				TargetAttributes = {
 					A11E6A1D2EAFD2C0006F9996 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					A1D532A22F1E977400549239 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = A11E6A1D2EAFD2C0006F9996;
 					};
 				};
 			};
@@ -113,12 +165,20 @@
 			projectRoot = "";
 			targets = (
 				A11E6A1D2EAFD2C0006F9996 /* Workout Tracker */,
+				A1D532A22F1E977400549239 /* Workout TrackerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A11E6A1C2EAFD2C0006F9996 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1D532A12F1E977400549239 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +195,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1D5329F2F1E977400549239 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A1D532A82F1E977400549239 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A11E6A1D2EAFD2C0006F9996 /* Workout Tracker */;
+			targetProxy = A1D532A72F1E977400549239 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A11E6A2D2EAFD2C3006F9996 /* Debug */ = {
@@ -323,6 +398,46 @@
 			};
 			name = Release;
 		};
+		A1D532A92F1E977400549239 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "pwr.edu.Workout-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Workout Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Workout Tracker";
+			};
+			name = Debug;
+		};
+		A1D532AA2F1E977400549239 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "pwr.edu.Workout-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Workout Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Workout Tracker";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -340,6 +455,15 @@
 			buildConfigurations = (
 				A11E6A2D2EAFD2C3006F9996 /* Debug */,
 				A11E6A2E2EAFD2C3006F9996 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1D532AB2F1E977400549239 /* Build configuration list for PBXNativeTarget "Workout TrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1D532A92F1E977400549239 /* Debug */,
+				A1D532AA2F1E977400549239 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

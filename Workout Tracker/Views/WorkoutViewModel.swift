@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 
+@MainActor
 class WorkoutViewModel: ObservableObject {
     @Published var workouts: [Workout] = []
     @Published var workoutName: String = ""
@@ -12,8 +13,14 @@ class WorkoutViewModel: ObservableObject {
     private let completedStorageKey = "completed_workouts"
 
 
-    init() {
-        load()
+//    init() {
+//        load()
+//    }
+
+    init(loadFromStorage: Bool = true) {
+        if loadFromStorage {	
+            load()
+        }
     }
 
     // MARK: - Workout building
@@ -75,13 +82,6 @@ class WorkoutViewModel: ObservableObject {
     }
 
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: storageKey),
-              let decoded = try? JSONDecoder().decode([Workout].self, from: data)
-        else { return }
-        
-        
-
-        workouts = decoded
         // Load saved workouts
         if let data = UserDefaults.standard.data(forKey: storageKey),
            let decoded = try? JSONDecoder().decode([Workout].self, from: data) {
@@ -94,4 +94,6 @@ class WorkoutViewModel: ObservableObject {
             completedWorkouts = decodedCompleted
         }
     }
+    
+    
 }
